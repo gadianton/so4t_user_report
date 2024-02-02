@@ -1,5 +1,5 @@
 # Stack Overflow for Teams User Report (so4t_user_report)
-A Python script that uses the Stack Overflow for Teams API to create a CSV report of how well each user is performing. You can see an example of what the output looks like in the Examples directory ([here](https://github.com/jklick-so/so4t_user_reportE/blob/main/Examples/user_metrics.csv)).
+A Python script that uses the Stack Overflow for Teams API to create a CSV report of how well each user is performing. You can see an example of what the output looks like in the Examples directory ([here](https://github.com/jklick-so/so4t_user_report/blob/main/Examples/user_metrics.csv)).
 
 ## Table of Contents
 * [Requirements](https://github.com/jklick-so/so4t_user_report?tab=readme-ov-file#requirements)

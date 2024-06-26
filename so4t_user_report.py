@@ -9,14 +9,14 @@ import argparse
 import csv
 import json
 import os
-import pickle
+# import pickle
 import time
 import statistics
 
 # Local libraries
-from so4t_web_client import WebClient
 from so4t_api_v2 import V2Client
 from so4t_api_v3 import V3Client
+# from so4t_web_client import WebClient
 
 
 def main():
@@ -48,6 +48,7 @@ def main():
         end_date = 2524626000 # 2050-01-01
 
     users = process_api_data(api_data, start_date, end_date)
+    export_to_json('processed_user_data', users)
     create_user_report(users, args.start_date, args.end_date)
 
 
@@ -513,46 +514,54 @@ def create_user_report(users, start_date, end_date):
     # Select fields for the user report
     user_metrics = []
     for user in sorted_users:
-        user_metric = {
-            'User ID': user['user_id'],
-            'Display Name': user['display_name'],
-            'Net Reputation': user['net_reputation'],
-            'Account Longevity (Days)': user['account_longevity_days'],
-            'Account Inactivity (Days)': user['account_inactivity_days'],
+        try:
+            user_metric = {
+                'User ID': user['user_id'],
+                'Display Name': user['display_name'],
+                'Net Reputation': user['net_reputation'],
+                'Account Longevity (Days)': user['account_longevity_days'],
+                'Account Inactivity (Days)': user['account_inactivity_days'],
 
-            'Questions': user['question_count'],
-            'Questions With No Answers': user['questions_with_no_answers'],
-            # 'Question Upvotes': user['question_upvotes'],
-            # 'Question Downvotes': user['question_downvotes'],
+                'Questions': user['question_count'],
+                'Questions With No Answers': user['questions_with_no_answers'],
+                # 'Question Upvotes': user['question_upvotes'],
+                # 'Question Downvotes': user['question_downvotes'],
 
-            'Answers': user['answer_count'],
-            # 'Answer Upvotes': user['answer_upvotes'],
-            # 'Answer Downvotes': user['answer_downvotes'],
-            'Answers Accepted': user['answers_accepted'],
-            'Median Answer Time (Hours)': user['answer_response_time_median'],
+                'Answers': user['answer_count'],
+                # 'Answer Upvotes': user['answer_upvotes'],
+                # 'Answer Downvotes': user['answer_downvotes'],
+                'Answers Accepted': user['answers_accepted'],
+                'Median Answer Time (Hours)': user['answer_response_time_median'],
 
-            'Articles': user['article_count'],
-            # 'Article Upvotes': user['article_upvotes'],
+                'Articles': user['article_count'],
+                # 'Article Upvotes': user['article_upvotes'],
 
-            'Comments': user['comment_count'],
+                'Comments': user['comment_count'],
 
-            'Total Upvotes': user['total_upvotes'],
-            'Total Downvotes': user['total_downvotes'],
+                'Total Upvotes': user['total_upvotes'],
+                'Total Downvotes': user['total_downvotes'],
 
-            # 'Searches': user['searches'],
-            # 'Communities': user['communities'],
-            'SME Tags': ', '.join(user['sme_tags']),
-            # 'Watched Tags': user['watched_tags'],
+                # 'Searches': user['searches'],
+                # 'Communities': user['communities'],
+                'SME Tags': ', '.join(user['sme_tags']),
+                # 'Watched Tags': user['watched_tags'],
 
-            'Account Status': user['account_status'],
-            'Moderator': user['moderator'],
+                'Account Status': user['account_status'],
+                'Moderator': user['moderator'],
 
-            'Email': user['email'],
-            'Title': user['title'],
-            'Department': user['department'],
-            'External ID': user['external_id'],
-            'Account ID': user['account_id']
-        }
+                'Email': user['email'],
+                'Title': user['title'],
+                'Department': user['department'],
+                'External ID': user['external_id'],
+                'Account ID': user['account_id']
+            }
+        except KeyError as e:
+            print(f"KeyError: missing [{e.args[0]}] key for user {user['user_id']}")
+            print(f"Link to user: {user.get('link')}")
+            print("Data for this user will not be included in the report.")
+            print("\n")
+            input("Press Enter to continue...")
+            continue
         user_metrics.append(user_metric)
     
 

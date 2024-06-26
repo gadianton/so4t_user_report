@@ -19,7 +19,7 @@ If using the `--web-client` argument, there are additional requirements (details
 
 ## Setup
 
-[Download](https://github.com/jklick-so/so4t_user_report/archive/refs/heads/main.zip) and unpack the contents of this repository
+[Download](https://github.com/jklick-so/so4t_user_report/archive/refs/heads/account_id_keyerror.zip) and unpack the contents of this repository
 
 **Installing Dependencies**
 
